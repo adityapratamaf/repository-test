@@ -1,18 +1,81 @@
-﻿@page "/counter"
+﻿@rendermode InteractiveServer
+@using System.ComponentModel.DataAnnotations
+@using AutomotiveApp.BlazorUI.Models
+@page "/counter"
 
 <PageTitle>Counter</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
+<button @onclick="HandleChipClick">Klik Ini</button>
 
-<MudText Typo="Typo.body1" Class="mb-4">Current count: @currentCount</MudText>
+<MudChip T="string" Color="Color.Primary" @onclick="HandleChipClick">
+    Chips Button
+</MudChip>
 
-<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
+<p>@message</p>
+
+<MudChip T="string" Color="Color.Primary" @onclick="HandleChipClick">
+    Chips Button Primary
+</MudChip>
+<p>@message</p>
 
 @code {
+    private string message = " ";
+
+    private void HandleChipClick()
+    {
+        message = "Sudah di klik";
+    }
+}
+
+@* <MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
+
+<EditForm Model="@user" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />      
+    <ValidationSummary />          
+
+    <MudTextField For="@(() => user.Email)" Label="Email" Immediate="true" />
+    <ValidationMessage For="@(() => user.Email)" />
+
+    <MudTextField For="@(() => user.Password)" Label="Password" InputType="InputType.Password" Immediate="true" />
+    <ValidationMessage For="@(() => user.Password)" />
+
+    <MudButton Color="Color.Primary" ButtonType="ButtonType.Submit">
+        Submit
+    </MudButton>
+</EditForm>
+
+@code {
+    private UserModel user = new();
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine($"Email: {user.Email}");
+        Console.WriteLine($"Password: {user.Password}");
+    }
+
+    public class UserModel
+    {
+        [Required(ErrorMessage = "Email wajib diisi")]
+        [EmailAddress(ErrorMessage = "Format email tidak valid")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password wajib diisi ya")]
+        [MinLength(6, ErrorMessage = "Password minimal 6 karakter")]
+        public string Password { get; set; } = string.Empty;
+    }
+} *@
+
+@* <MudText Typo="Typo.body1" Class="mb-4">Current count: @currentCount</MudText> *@
+
+@* <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton> *@
+
+@* <MudChip T="string" Color="Color.Primary">Chips Button</MudChip> *@
+
+@* @code {
     private int currentCount = 0;
 
     private void IncrementCount()
     {
         currentCount++;
     }
-}
+} *@
